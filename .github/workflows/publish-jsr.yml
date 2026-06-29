@@ -12,5 +12,9 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v6
+      - name: Install Dependencies
+        run: npm install
+      - name: Clean up git environment
+        run: git restore .
       - name: Publish package
         run: npx jsr publish
