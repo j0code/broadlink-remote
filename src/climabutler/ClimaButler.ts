@@ -3,6 +3,12 @@ import { encodeState } from "./state.js"
 import { MODES, type ModeName, type State } from "./types.js"
 import { encode } from "./decode.js"
 
+/**
+ * @module
+ * climabutler protocol abstraction
+ */
+
+/** default initial state */
 const defaultInitialState: State = {
 	power: false,
 	offTimerState: false,
@@ -17,20 +23,32 @@ const defaultInitialState: State = {
 const device = await getDevice()
 let closed = false
 
+/**
+ * ClimaButler class  
+ * Connects to local broadlink rm mini device automatically  
+ * Allows modifying climabutler AC state
+ */
 export default class ClimaButler {
 
+	/** internal saved state */
 	private state: State
 
+	/**
+	 * constructor, duh
+	 * @param initialState initial state to apply
+	 */
 	constructor(initialState: State = defaultInitialState) {
 		validateState(initialState)
 		this.state = initialState
 	}
 
+	/** set entire state at once */
 	setState(state: State) {
 		validateState(state)
 		this.state = state
 	}
 
+	/** get current saved state */
 	getState(): State {
 		return this.state
 	}
@@ -90,6 +108,7 @@ export default class ClimaButler {
 		return this.state.onTimer
 	}
 
+	/** Send current state over Broadlink RM Mini / IR */
 	send(): Promise<void> {
 		if (closed) {
 			throw new Error("Socket already closed.")
@@ -99,6 +118,10 @@ export default class ClimaButler {
 		return device.sendData(encode(packet).toString("hex"))
 	}
 
+	/**
+	 * Closes the socket  
+	 * Note: can not be reopened without stopping and restarting the process.
+	 */
 	close() {
 		closed = true
 		closeSocket(device)
@@ -106,6 +129,10 @@ export default class ClimaButler {
 
 }
 
+/**
+ * Validate numeric parameters of state
+ * @param state state to validate
+ */
 function validateState(state: State) {
 	if (state.offTimer < 0     || state.offTimer > 31) throw new RangeError("offTimer must be within 0..31")
 	if (state.onTimer < 0      || state.onTimer > 31)  throw new RangeError("onTimer must be within 0..31")
