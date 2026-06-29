@@ -1,0 +1,9 @@
+{
+	"name": "@j0code/broadlink-remote",
+	"version": "0.1.0",
+	"license": "GPL-3.0-or-later",
+	"exports": {
+		"./ClimaButler": "./src/climabutler/ClimaButler.ts",
+		"./ClimaButler/types": "./src/climabutler/types.ts"
+	}
+  }

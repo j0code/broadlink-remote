@@ -1,0 +1,19 @@
+{
+  "name": "broadlink-remote",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "j0code",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "typescript": "^6.0.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "node-broadlink": "^2.4.1"
+  }
+}
