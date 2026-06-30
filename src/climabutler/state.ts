@@ -3,21 +3,21 @@ import type { Packet } from "./decode.js"
 import { MODES, type State, type StateWithIntegrity } from "./types.js"
 
 /*
-	nibble 0: unknown (just 1000)
+	nibble 0: unknown (fixed to 1000)
 	nibble 1: 0000 (OFF) or 0011 (ON)
 	nibble 2: off timer state (1 bit) + off timer value high bits (3 bits)
-	nibble 3: off timer value low bits (2 bits) + unknown (2 bits)
-	nibble 4: unknown (4 bits)
+	nibble 3: off timer value low bits (2 bits) + unknown (2 bits, fixed to 00)
+	nibble 4: unknown (4 bits, fixed to 0000)
 	nibble 5: on timer state (1 bit) + on timer value high bits (3 bits)
-	nibble 6: on timer value low bits (2 bits) + unknown (2 bits)
-	nibble 7: unknown (4 bits)
+	nibble 6: on timer value low bits (2 bits) + unknown (2 bits, fixed to 00)
+	nibble 7: unknown (4 bits, fixed to 0000)
 	nibble 8: unknown (2 bits, fixed 01) + swing (1 bit) + unknown (1 bit, fixed 1)
 	nibble 9: unknown (2 bits, fixed 10) + mode (2 bits)
 	nibble a: mode (4 bits)
 	nibble b: temperature (4 bits); 1111 is impossible to reach with the remote
 	nibble c: integrity bits (4 bits)
 
-	timer > 24 impossible
+	timer > 23 impossible with remote
 */
 
 export function decodeState(packet: Packet): StateWithIntegrity {
